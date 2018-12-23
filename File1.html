@@ -1,0 +1,113 @@
+//PARAMETERS
+var xPositions = [];
+var yPositions = [];
+var rainSize = [];
+var rainSpeed = [];
+var creatureSize;
+var creatureElevation = 0;
+var wind = 18.1;
+var seaLevel;
+var backgroundColour = color(214, 232, 255);
+var waterColour = color(138, 212, 241);
+
+
+//END PARAMETERS
+
+//OBJECTS
+
+/*I'll get around to finishing this bit one day...
+
+
+
+var Fish = function(x,y, size) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+};
+
+
+Fish.prototype.move = function(x, y, size) {
+    this.x = x;
+    this.y = y;
+    
+    var fishSize = [];
+    var fishX = [];
+    var fishY = [];
+    var fin = {
+        fishX + fishSize*1.00,
+        fishY + fishSize*-0.30,
+        fishX + fishSize*-0.22,
+        fishY + fishSize*-0.19,
+        fishX + fishSize*0.22,
+        fishY + fishSize*0.29,
+        fishX + fishSize*0.70,
+        fishY + fishSize*0.19,
+        fishX + fishSize*0.24,
+        fishY + fishSize*-0.05,
+        fishX + fishSize*0.80,
+        fishY + fishSize*-0.31
+    };
+
+    fishSize.push(random(5,15));
+    fishX.push(width+fishSize);
+    fishY.push(random(seaLevel, height));
+
+    fill(255, 0, 0);
+    ellipse(fishX,fishY,fishSize,fishSize/2.2);
+    beginShape();
+    vertex(fin[0],fin[1]);
+    bezierVertex(fin[2], fin[3], fin[4], fin[5], fin[6], fin[7]);
+    bezierVertex(fin[8], fin[9], fin[10], fin[11], fin[0], fin[1]);
+    endShape();
+    };
+    
+    /Put this at the end of the draw function
+    
+    
+    */
+
+//END OBJECTS
+
+draw = function() {
+    noStroke();
+    background(backgroundColour);
+
+    mouseClicked = function () {
+        xPositions.push(0);
+        yPositions.push(2*height);
+        rainSize.push(0);
+        rainSpeed.push(1);
+    };
+
+    //rain
+    for (var i = 0; i < xPositions.length; i++) {
+        image(getImage("avatars/aqualine-seed"), xPositions[i], yPositions[i], rainSize[i], rainSize[i]);
+        yPositions[i] += rainSpeed[i];
+        xPositions[i] += wind / 10;
+
+        if(yPositions[i] > height) {
+            yPositions[i] = creatureElevation + creatureSize/1.4;
+            xPositions[i] = random(mouseX - creatureSize*0.15, mouseX + creatureSize*0.3);
+            rainSize[i] = random(creatureSize / 30, creatureSize / 10);
+            rainSpeed[i] = 5 + rainSize[i] / 10;
+        }
+    }
+
+    //creature
+    imageMode(CENTER);
+        creatureSize = 30 + i;
+        image(getImage("avatars/aqualine-ultimate"), mouseX, creatureElevation + creatureSize / 2, creatureSize, creatureSize);
+        
+        if((height - seaLevel) < (creatureSize)) {
+            creatureElevation = height - seaLevel - creatureSize;}
+
+    //sea level
+    seaLevel = seaLevel + i/1000;
+    fill(waterColour);
+    rect(0, height, width, -1 * seaLevel);
+
+    //reset
+    if(i===0){seaLevel = 0;
+    }
+
+};
